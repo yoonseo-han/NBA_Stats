@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "discord.js": "^14.6.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "fetch": "^1.1.0",
+    "node-fetch": "^3.3.0",
+    "node-fetch-commonjs": "^3.2.4",
+    "request": "^2.88.2"
+  },
+  "name": "nba_stats",
+  "description": "## Main functions",
+  "version": "1.0.0",
+  "main": "App.js",
+  "scripts": {
+    "start": "nodemon App.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoonseo-han/NBA_stats.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yoonseo-han/NBA_stats/issues"
+  },
+  "homepage": "https://github.com/yoonseo-han/NBA_stats#readme"
+}
