@@ -1,44 +1,51 @@
 //Act as a server to connect to discord bot
-
-
+const Discord = require('discord.js');
 const {Client,Events, GatewayIntentBits} = require('discord.js');
 const config = require('./config.json');
 const TOKEN = config.chatbot_token;
 //const {Team_Stats} = require('./Team_Info.js');
 const fetch = require('node-fetch-commonjs');
+const fs = require('fs');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
+const prefix = "!";
 
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': config.headers["X-RapidAPI-Key"],
-		'X-RapidAPI-Host': config.headers["X-RapidAPI-Host"]
-	}
-};
 
-const getTeamLogo = fetch(config.url + 'teams?id=2', options)
-    .then((response) => response.json())
-    .then(jsonObject => {
-        //console.log(jsonObject['response'][0].logo);
-        return jsonObject['response'][0].logo;
-    })
-    .catch(err => console.log(err));
+//Define commands cache collection in client
+client.commands = new Discord.Collection();
+
+client.commands.load = dir => {
+    //Read contents of a given directory that returns all the file names
+    for(const file of fs.readdirSync(dir)) {
+        const cmd = require(`${dir}/${file}`);
+        //Set the commands name
+        client.commands.set(cmd.name, cmd);
+    }
+    console.log(client.commands.map(c => c.name).join(', ') + ` command stored`);
+}
+
+//ADd /commands path into the current dir
+client.commands.load(__dirname + "/commands");
+
 
 client.on("ready", () => {
-    console.log("Discord bot Ready");
+    console.log(`${client.user.tag} Logged in`);
 });
 
-client.on("messageCreate", (message) => {
-    const printLogo = async () => {
-        const teamLogo = await getTeamLogo;
-        //message.channel.send(teamLogo);
-        message.reply(teamLogo);
-    }
+client.on("messageCreate", async (message) => {
+    if(message.author.bot) return;
+    //If message does not start with prefix, then return
+    if(!message.content.startsWith(prefix)) return;
+    if(message.content.slice(0, prefix.length) !== prefix) return;
 
-    if(message.content == "asd") {
-        printLogo();
-    }
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
+    console.log(command);
+
+    //Retrieves the data with the "command" key value
+    let cmd = client.commands.get(command);
+
+    if(cmd) cmd.execute(message);
 });
 
 
