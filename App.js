@@ -38,14 +38,16 @@ client.on("messageCreate", async (message) => {
     if(!message.content.startsWith(prefix)) return;
     if(message.content.slice(0, prefix.length) !== prefix) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/g);
-    const command = args.shift().toLowerCase();
-    console.log(command);
+    const messageInput = message.content.slice(prefix.length).trim().split(" ");
+    const messageInputLC = messageInput.map(element => element.toLowerCase());
+    
+    const command = messageInputLC[0];
+    const clarification = messageInputLC[1];
 
     //Retrieves the data with the "command" key value
     let cmd = client.commands.get(command);
 
-    if(cmd) cmd.execute(message);
+    if(cmd) cmd.execute(message, clarification);
 });
 
 
