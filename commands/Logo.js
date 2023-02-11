@@ -26,7 +26,9 @@ const getTeamLogo = async (teamID) => {
 
 //Export run method
 module.exports = {
-    name: 'logo',
+    data: new SlashCommandBuilder()
+        .setName('logo')
+        .setDescription('Show team logo'),
     async execute(message, clarification) {
         if(clarification==="boston") teamID='2';
         const teamLogo = await getTeamLogo(teamID);
@@ -34,5 +36,4 @@ module.exports = {
         //message.channel.send(teamLogo);
         message.reply(teamLogo);
     }
-    
 };
