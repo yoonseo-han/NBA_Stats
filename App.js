@@ -3,20 +3,18 @@ const Discord = require('discord.js');
 const {Client,Events, GatewayIntentBits} = require('discord.js');
 const config = require('./config.json');
 const TOKEN = config.chatbot_token;
-//const {Team_Stats} = require('./Team_Info.js');
 const fetch = require('node-fetch-commonjs');
 const fs = require('fs');
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 const path = require('node:path');
-
 const { REST, Routes } = require('discord.js');
+// Construct and prepare an instance of the REST module
+const rest = new REST({ version: '10' }).setToken(TOKEN);
+
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 const prefix = "!";
 
 const commandsStore = [];
-
-// Construct and prepare an instance of the REST module
-const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 //Define commands cache collection in client
 client.commands = new Discord.Collection();
@@ -27,7 +25,6 @@ client.commands.load = dir => {
         const filePath = path.join(dir, file);
         const cmd = require(`${filePath}`);
         commandsStore.push(cmd.data);
-
         //Set the commands name if data and execute exist
         if('data' in cmd && 'execute' in cmd) {
             client.commands.set(cmd.data.name, cmd);
@@ -59,11 +56,21 @@ async function deploy_commands() {
 //Add commands path into the current dir
 client.commands.load(__dirname + "/commands");
 
+//Define event handler variables
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
-client.on("ready", () => {
-    console.log(`${client.user.tag} Logged in`);
-    deploy_commands();
-});
+//Event handler
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
+	if (event.once) {
+		client.once(event.name, (client) => event.execute(client));
+        if(event.name === Events.ClientReady) deploy_commands();
+	} else {
+		client.on(event.name, (client) => event.execute(client));
+	}
+}
 
 //Message response
 client.on("messageCreate", async (message) => {
@@ -73,10 +80,10 @@ client.on("messageCreate", async (message) => {
     if(message.content.slice(0, prefix.length) !== prefix) return;
 
     const messageInput = message.content.slice(prefix.length).trim().split(" ");
-    const messageInputLC = messageInput.map(element => element.toLowerCase());
+    //const messageInputLC = messageInput.map(element => element.toLowerCase());
     
     const command = messageInputLC[0];
-    const clarification = messageInputLC[1];
+    //const clarification = messageInputLC[1];
 
     //Retrieves the data with the "command" key value
     let cmd = client.commands.get(command);
