@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const fetch = require('node-fetch-commonjs');
 const config = require('../config.json');
-var teamID = 2;
+var teamID = 0;
 
 const options = {
 	method: 'GET',
@@ -28,9 +28,19 @@ const getTeamLogo = async (teamID) => {
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('logo')
-        .setDescription('Show team logo'),
+        .setDescription('Show team logo')
+        .addStringOption(option =>
+            option.setName('team')
+                .setDescription('Which team logo to show')
+                .setRequired(true)
+                .addChoices(
+                    {name: 'Boston', value: 'boston'},
+                    {name: 'Chicago', value: 'chicago'}
+                )),
     async execute(message, clarification) {
+        console.log(clarification);
         if(clarification==="boston") teamID='2';
+        if(clarification==="chicago") teamID='6';
         const teamLogo = await getTeamLogo(teamID);
         console.log("command executed");
         //message.channel.send(teamLogo);

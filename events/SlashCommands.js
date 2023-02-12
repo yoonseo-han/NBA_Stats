@@ -12,7 +12,8 @@ module.exports = {
             return;
         }
         try {
-            await command.execute(interaction, "boston");
+            const clarification = interaction.options.getString("team");
+            await command.execute(interaction, clarification);
         } catch(err) {
             console.error(error);
             await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
