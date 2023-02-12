@@ -12,8 +12,6 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
-const prefix = "!";
-
 const commandsStore = [];
 
 //Define commands cache collection in client
@@ -45,7 +43,6 @@ async function deploy_commands() {
 			Routes.applicationGuildCommands(config.clientID, config.guildID),
 			{ body: commandsStore},
 		);
-
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
 		// And of course, make sure you catch and log any errors!
@@ -68,47 +65,9 @@ for (const file of eventFiles) {
 		client.once(event.name, (client) => event.execute(client));
         if(event.name === Events.ClientReady) deploy_commands();
 	} else {
-		client.on(event.name, (client) => event.execute(client));
+		client.on(event.name, (interaction) => event.execute(interaction));
 	}
 }
-
-//Message response
-client.on("messageCreate", async (message) => {
-    if(message.author.bot) return;
-    //If message does not start with prefix, then return
-    if(!message.content.startsWith(prefix)) return;
-    if(message.content.slice(0, prefix.length) !== prefix) return;
-
-    const messageInput = message.content.slice(prefix.length).trim().split(" ");
-    //const messageInputLC = messageInput.map(element => element.toLowerCase());
-    
-    const command = messageInputLC[0];
-    //const clarification = messageInputLC[1];
-
-    //Retrieves the data with the "command" key value
-    let cmd = client.commands.get(command);
-
-    console.log(command);
-});
-
-//Slash command interaction response
-client.on(Events.InteractionCreate, async (interaction) => {
-    if (!interaction.isChatInputCommand()) return;
-
-    const command = interaction.client.commands.get(interaction.commandName);
-
-    if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
-		return;
-	}
-    try {
-        await command.execute(interaction, "boston");
-    } catch(err) {
-        console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-    }
-
-})
 
 
 client.login(TOKEN);
