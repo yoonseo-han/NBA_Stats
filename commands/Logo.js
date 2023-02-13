@@ -3,6 +3,8 @@ const fetch = require('node-fetch-commonjs');
 const config = require('../config.json');
 var teamID = 0;
 
+const teamName = require('../functions/getTeamName');
+
 const options = {
 	method: 'GET',
 	headers: {
@@ -30,7 +32,7 @@ module.exports = {
         .setName('logo')
         .setDescription('Show team logo')
         .addStringOption(option =>
-            option.setName('team')
+            option.setName('City')
                 .setDescription('Which team logo to show')
                 .setRequired(true)
                 .addChoices(
