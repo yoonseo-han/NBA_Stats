@@ -14,6 +14,9 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 
 const commandsStore = [];
 
+const Team = require('./dbObjects');
+
+
 //Define commands cache collection in client
 client.commands = new Discord.Collection();
 
@@ -63,11 +66,12 @@ for (const file of eventFiles) {
 	const event = require(filePath);
 	if (event.once) {
 		client.once(event.name, (client) => event.execute(client));
-        if(event.name === Events.ClientReady) deploy_commands();
+        if(event.name === Events.ClientReady) {
+			deploy_commands();
+		}
 	} else {
 		client.on(event.name, (interaction) => event.execute(interaction));
 	}
 }
-
 
 client.login(TOKEN);

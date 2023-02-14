@@ -1,4 +1,8 @@
 const {Events} = require('discord.js');
+const config = require('../config.json');
+
+const Team = require('../dbObjects');
+
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -12,7 +16,8 @@ module.exports = {
             return;
         }
         try {
-            const clarification = interaction.options.getString("team");
+            const clarification = interaction.options.getString("city");
+            console.log(Team.team);
             await command.execute(interaction, clarification);
         } catch(err) {
             console.error(error);

@@ -4,6 +4,15 @@ const config = require('../config.json');
 var teamID = 0;
 
 const teamName = require('../functions/getTeamName');
+const Sequelize = require('sequelize');
+
+const sequelize = new Sequelize('NBA', `${config.DB_user}`, `${config.DB_password}`, {
+	host: 'localhost',
+	dialect: 'mysql',
+	logging: false,
+});
+
+const Team = require('../models/Team.js')(sequelize, Sequelize.DataTypes);
 
 const options = {
 	method: 'GET',
@@ -32,7 +41,7 @@ module.exports = {
         .setName('logo')
         .setDescription('Show team logo')
         .addStringOption(option =>
-            option.setName('City')
+            option.setName('city')
                 .setDescription('Which team logo to show')
                 .setRequired(true)
                 .addChoices(
@@ -40,10 +49,9 @@ module.exports = {
                     {name: 'Chicago', value: 'chicago'}
                 )),
     async execute(message, clarification) {
-        console.log(clarification);
-        if(clarification==="boston") teamID='2';
-        if(clarification==="chicago") teamID='6';
-        const teamLogo = await getTeamLogo(teamID);
+        const team = await Team.findOne({where: {city_name: `${clarification}`}});
+        console.log(team);
+        const teamLogo = await getTeamLogo(team.team_id);
         console.log("command executed");
         //message.channel.send(teamLogo);
         message.reply(teamLogo);
