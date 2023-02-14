@@ -46,7 +46,8 @@ module.exports = {
                 .setRequired(true)
                 .addChoices(
                     {name: 'Boston', value: 'boston'},
-                    {name: 'Chicago', value: 'chicago'}
+                    {name: 'Chicago', value: 'chicago'},
+                    {name: 'Detroit', value: 'detroit'}
                 )),
     async execute(message, clarification) {
         const team = await Team.findOne({where: {city_name: `${clarification}`}});
