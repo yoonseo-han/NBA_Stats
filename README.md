@@ -13,7 +13,8 @@ URL: https://rapidapi.com/api-sports/api/api-nba/
 ## References
 
 How to build chatbot: https://towardsdatascience.com/how-to-build-your-own-ai-chatbot-on-discord-c6b3468189f4 <br>
-Discord chatbot github source code: https://github.com/dtomper/Discord-AI-Chatbot/blob/main/Version%203/Local%20Version/discordbot3.py
+Discord chatbot github source code: https://github.com/dtomper/Discord-AI-Chatbot/blob/main/Version%203/Local%20Version/discordbot3.py <br>
+Discord js documentation: https://discordjs.guide/keyv/#installation
 <br>
 
 ### REST API
@@ -26,3 +27,5 @@ https://github.com/seemethere/nba_py/wiki/stats.nba.com-Endpoint-Documentation
 
 ### TODO
 - Add all teams DATA into MySQL server
+- Refactoring to make more clean code
+- Understand usage of OAUTH2
