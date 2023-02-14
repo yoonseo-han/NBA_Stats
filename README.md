@@ -25,4 +25,4 @@ https://towardsdatascience.com/attempting-to-predict-the-result-of-an-nba-game-b
 https://github.com/seemethere/nba_py/wiki/stats.nba.com-Endpoint-Documentation
 
 ### TODO
-- Add all teams info into MySQL DB and connect it to server
+- Add all teams DATA into MySQL server

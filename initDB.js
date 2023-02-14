@@ -20,7 +20,8 @@ module.exports = {
     async sync() {
             sequelize.sync().then(async() => {
             const teams = [
-                Team.upsert({team_id:2, team_name: "Boston Celtics", city_name: "boston"})
+                Team.upsert({team_id:2, team_name: "Boston Celtics", city_name: "boston"}),
+                Team.upsert({team_id:6, team_name: "Chicago Bulls", city_name: "chicago"})
             ];
         
             await Promise.all(teams);
