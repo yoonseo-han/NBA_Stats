@@ -2,8 +2,8 @@
 
 ## Main functions
 
-- Input NBA player name and get their recent game score <br>
-- Input NBA team to get ranking <br>
+- Input NBA player name and get their basic info <br>
+- Input NBA team to get logo <br>
 - REST API structure 
 
 ## Rapid API URL
@@ -26,6 +26,5 @@ https://towardsdatascience.com/attempting-to-predict-the-result-of-an-nba-game-b
 https://github.com/seemethere/nba_py/wiki/stats.nba.com-Endpoint-Documentation
 
 ### TODO
-- Add all teams DATA into MySQL server
 - Refactoring to make more clean code
-- Understand usage of OAUTH2
+- Input NBA player name and get their basic info
