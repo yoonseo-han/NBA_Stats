@@ -47,11 +47,12 @@ module.exports = {
                 .addChoices(
                     {name: 'Boston', value: 'boston'},
                     {name: 'Chicago', value: 'chicago'},
-                    {name: 'Detroit', value: 'detroit'}
+                    {name: 'Detroit', value: 'detroit'},
+                    {name: 'Golden state', value: 'golden state'}
                 )),
     async execute(message, clarification) {
         const team = await Team.findOne({where: {city_name: `${clarification}`}});
-        console.log(team);
+
         const teamLogo = await getTeamLogo(team.team_id);
         console.log("command executed");
         //message.channel.send(teamLogo);

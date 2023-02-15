@@ -22,7 +22,8 @@ module.exports = {
             const teams = [
                 Team.upsert({team_id:2, team_name: "Boston Celtics", city_name: "boston"}),
                 Team.upsert({team_id:6, team_name: "Chicago Bulls", city_name: "chicago"}),
-                Team.upsert({team_id:10, team_name: "Detroit pistons", city_name: "detroit"})
+                Team.upsert({team_id:10, team_name: "Detroit pistons", city_name: "detroit"}),
+                Team.upsert({team_id:11, team_name: "Golden State warriors", city_name: "golden state"})
             ];
         
             await Promise.all(teams);
