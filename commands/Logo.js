@@ -3,7 +3,6 @@ const fetch = require('node-fetch-commonjs');
 const config = require('../config.json');
 var teamID = 0;
 
-const teamName = require('../functions/getTeamName');
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('NBA', `${config.DB_user}`, `${config.DB_password}`, {
