@@ -49,12 +49,13 @@ module.exports = {
                     {name: 'Detroit', value: 'detroit'},
                     {name: 'Golden state', value: 'golden state'}
                 )),
-    async execute(message, clarification) {
+    async execute(interaction) {
+        const clarification = interaction.options.getString("city");
         const team = await Team.findOne({where: {city_name: `${clarification}`}});
 
         const teamLogo = await getTeamLogo(team.team_id);
         console.log("command executed");
         //message.channel.send(teamLogo);
-        message.reply(teamLogo);
+        interaction.reply(teamLogo);
     }
 };

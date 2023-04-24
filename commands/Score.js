@@ -17,10 +17,7 @@ module.exports = {
 		.addStringOption(option => option.setName(`date`).setDescription(`Today/yesterday/tomorrow or a date in mm/dd/yyyy format.`))
 		.addStringOption(option => option.setName(`team`).setDescription(`The specific team whose score you want to see.`)),
     
-    async execute(variables) {
-		let { interaction, con, ad, betting } = variables;
-		let interactionSource = interaction;
-
+    async execute(interactionSource) {
 		// Getting date
 		let requestedDate = interactionSource.options.getString('date');
 
