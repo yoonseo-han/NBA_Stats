@@ -27,6 +27,7 @@ module.exports = {
 		// Getting team
 		let requestedTeam = interactionSource.options.getString(`team`);
 
-		
+		console.log(requestedDate);
+		console.log(requestedTeam);
 	}
 };

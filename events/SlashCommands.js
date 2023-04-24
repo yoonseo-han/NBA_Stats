@@ -16,9 +16,16 @@ module.exports = {
             return;
         }
         try {
-            const clarification = interaction.options.getString("city");
-            console.log(Team.team);
-            await command.execute(interaction, clarification);
+            console.log(command.data.name);
+            if(command.data.name == 'logo') {
+                const clarification = interaction.options.getString("city");
+                console.log(Team.team);
+                await command.execute(interaction, clarification);
+            } else {
+                // APPLY EXECUTE FUJNCTION HANDLING HERE
+                console.log(command.name.data);
+            }
+            
         } catch(err) {
             console.error(error);
             await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
